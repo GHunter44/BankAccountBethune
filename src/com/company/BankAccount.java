@@ -7,6 +7,20 @@ public class BankAccount {
     private float interestRate;
     //End of defining instance variables
 
+    //Constructor for Interest
+    public BankAccount(){
+        interestRate = 0.02f;
+
+    }
+
+    //Second Constructor. Works because Parameters VV are different
+    public BankAccount(double initialBalance, float initialRate){
+        balance = initialBalance;
+        interestRate = initialRate;
+
+    }
+
+
     //Deposit Method
     public void deposit(double amount){
         balance += amount;
@@ -37,6 +51,8 @@ public class BankAccount {
         return balance;
 
     }
+
+
 
 
 
