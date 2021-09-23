@@ -25,6 +25,9 @@ public class Bank {
         var newCustomer = new Customer(customerName, taxId);
         allCustomers.add(newCustomer);
     }
+    private void doCustomerMenu(Scanner menuReader){
+        System.out.println("Next Week Finish");
+    }
 
     //Constructor for doBanking
     private Optional<Customer> selectCustomer(Scanner reader) {
