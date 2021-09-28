@@ -9,6 +9,7 @@ public class Customer {
     public Customer(String name, int taxID){
         customerID = taxID;
         customerName = name;
+        accounts = new ArrayList<BankAccount>();
 
     }
 
@@ -22,11 +23,23 @@ public class Customer {
 
     }
 
-    public boolean openAccount(double initialDeposit){
+    public Optional<BankAccount> closeAccount(int accountNumber){
+        for(var account: accounts){
+            if (account.getAccountID() == accountNumber){
+                System.out.println("Removing account with account ID "+ accountNumber);
+                accounts.remove(account);
+                return Optional.of(account);
+            }
+        }
+        System.out.println("Account with account ID "+ accountNumber + " was not removed.");
+        return Optional.empty();
+    }
+
+    public BankAccount openAccount(double initialDeposit){
         var newAccount = new BankAccount();
         newAccount.deposit(initialDeposit);
         var didSucceed = accounts.add(newAccount);
-        return didSucceed;
+        return newAccount;
     }
 
 

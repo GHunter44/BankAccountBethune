@@ -8,6 +8,7 @@ public class Bank {
 
     //Constructor for doBanking
     private void printMenu() {
+        System.out.println("+++++++++++++++");
         System.out.println("What would you like to do next?(Select the Number) ");
         System.out.println(" [1] Exit the Program");
         System.out.println(" [2] Add a customer");
@@ -25,8 +26,53 @@ public class Bank {
         var newCustomer = new Customer(customerName, taxId);
         allCustomers.add(newCustomer);
     }
-    private void doCustomerMenu(Scanner menuReader){
-        System.out.println("Next Week Finish");
+    private void printCustomerMenu() {
+        System.out.println("******************");
+        System.out.println("What do you want to do with this Customer? ");
+        System.out.println("   [1] Open an account ");
+        System.out.println("   [2] Close an account ");
+        System.out.println("   [3] Return to Main Menu ");
+        System.out.println("********************");
+        System.out.println("Enter Choice: ");
+    }
+
+    private void doCustomerMenu(Scanner menuReader, Customer currentCustomer){
+        while(true){
+            printCustomerMenu();
+            var customerChoice = menuReader.nextInt();
+            switch (customerChoice){
+                case 1:
+                    openCustomerAccount(menuReader, currentCustomer);
+                    break;
+                case 2:
+                    closeCustomerAccount(menuReader, currentCustomer);
+                    break;
+                case 3:
+                    return;
+                default:
+                    System.out.println("Invalid Input ");
+            }
+        }
+    }
+
+    private void closeCustomerAccount(Scanner menuReader, Customer currentCustomer) {
+        //ask user what account number to close
+        System.out.println("What account would you like to close? ");
+        var accountCloser = menuReader.nextInt();
+        //Call close account on the customer passing that number
+        var closeAccount = currentCustomer.closeAccount(accountCloser);
+        //if the close succeeded remove the account from allAccounts
+        allAccounts.remove(closeAccount);
+    }
+
+    private void openCustomerAccount(Scanner menuReader, Customer currentCustomer) {
+        //ask the user how much money the starting deposit is.
+        System.out.println("How much is your starting deposit? ");
+        var initialDeposit = menuReader.nextDouble();
+        //call open account on the customer
+        var newAccount = currentCustomer.openAccount(initialDeposit);
+        //add the new account to allAccounts
+        allAccounts.add(newAccount);
     }
 
     //Constructor for doBanking
@@ -60,6 +106,8 @@ public class Bank {
                     break;
                 case 3:
                     Optional<Customer> current = selectCustomer(menuReader);
+                    if(current.isPresent())
+                        doCustomerMenu(menuReader, current.get());
                     break;
                 default:
                     System.out.println("You have not chosen an eligible option! ");
