@@ -13,6 +13,7 @@ public class Bank {
         System.out.println(" [1] Exit the Program");
         System.out.println(" [2] Add a customer");
         System.out.println(" [3] Select customer by ID");
+        System.out.println(" [4] Do to yearly maintenance");
         System.out.println("Enter Choice: ");
 
     }
@@ -60,9 +61,11 @@ public class Bank {
         System.out.println("What account would you like to close? ");
         var accountCloser = menuReader.nextInt();
         //Call close account on the customer passing that number
-        var closeAccount = currentCustomer.closeAccount(accountCloser);
+        Optional<BankAccount> accountToClose = currentCustomer.closeAccount(accountCloser);
         //if the close succeeded remove the account from allAccounts
-        allAccounts.remove(closeAccount);
+        if(accountToClose.isPresent()) {
+            allAccounts.remove(accountToClose.get());
+        }
     }
 
     private void openCustomerAccount(Scanner menuReader, Customer currentCustomer) {
@@ -109,6 +112,9 @@ public class Bank {
                     if(current.isPresent())
                         doCustomerMenu(menuReader, current.get());
                     break;
+                case 4:
+                    doYearlyMaintence();
+                    break;
                 default:
                     System.out.println("You have not chosen an eligible option! ");
             }
@@ -117,4 +123,14 @@ public class Bank {
 
     }
 
-}
+    private void doYearlyMaintence() {
+        //for each account - call addInterest and then print account info
+        for(var currentAccount: allAccounts){
+            currentAccount.addInterest();
+            System.out.println("Account ID: "+currentAccount.getAccountID()+" has balance of " + currentAccount.checkBalance());
+        }
+
+        }
+    }
+
+
